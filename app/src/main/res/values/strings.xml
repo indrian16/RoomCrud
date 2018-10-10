@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">RoomCrud</string>
+    <string name="delete_all">Delete All</string>
+    <string name="save_text">Save Text</string>
+    <string name="type_what_you_like">Type what you like</string>
+    <string name="hi_google">Hi Google</string>
+    <string name="time_now">Time now</string>
+    <string name="no_item">NO ITEM</string>
+    <string name="update_text">Update Text</string>
+</resources>
