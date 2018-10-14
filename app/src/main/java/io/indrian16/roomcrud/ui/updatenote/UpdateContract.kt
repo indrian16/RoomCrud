@@ -1,15 +1,14 @@
 package io.indrian16.roomcrud.ui.updatenote
 
 import io.indrian16.roomcrud.data.note.Note
-import io.indrian16.roomcrud.data.note.NoteRepository
 
 interface UpdateContract {
 
     interface Presenter {
 
-        fun getNoteData(repository: NoteRepository, noteId: Long)
+        fun getNoteData(noteId: Long)
 
-        fun updateNote(repository: NoteRepository, note: Note)
+        fun updateNote(note: Note)
 
         fun unSubscribe()
     }

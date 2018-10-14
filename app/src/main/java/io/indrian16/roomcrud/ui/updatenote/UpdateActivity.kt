@@ -4,16 +4,16 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import io.indrian16.roomcrud.Injection
 import io.indrian16.roomcrud.R
-import io.indrian16.roomcrud.data.AppDatabase
 import io.indrian16.roomcrud.data.note.Note
 import io.indrian16.roomcrud.data.note.NoteRepository
 import kotlinx.android.synthetic.main.activity_update.*
 
 class UpdateActivity : UpdateContract.View, AppCompatActivity() {
 
+    lateinit var presenter: UpdatePresenter
     private var repository: NoteRepository? = null
-    private val presenter = UpdatePresenter(this)
 
     private var updateNote = Note()
 
@@ -23,19 +23,19 @@ class UpdateActivity : UpdateContract.View, AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        // Init DB
-        val db = AppDatabase.getInstance(this)
-        repository = NoteRepository(db.noteDao())
+        // Init DB and Presenter
+        repository = Injection.provideNoteRepository(this)
+        presenter = UpdatePresenter(this, repository!!)
 
         //Get DB
         val noteId = intent.getLongExtra("noteId", -1)
-        presenter.getNoteData(repository!!, noteId)
+        presenter.getNoteData(noteId)
     }
 
     fun updateText(view: View) {
 
         updateNote.text = edt_update_text.text.toString()
-        presenter.updateNote(repository!!, updateNote)
+        presenter.updateNote(updateNote)
     }
 
     override fun invalidUpdateText(must: String) {

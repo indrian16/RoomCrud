@@ -7,11 +7,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class UpdatePresenter(private val updateView: UpdateContract.View) : UpdateContract.Presenter {
+class UpdatePresenter(private val updateView: UpdateContract.View, private val repository: NoteRepository) : UpdateContract.Presenter {
 
     private var compositeDisposable = CompositeDisposable()
 
-    override fun getNoteData(repository: NoteRepository, noteId: Long) {
+    override fun getNoteData(noteId: Long) {
 
         val disposable = repository.getNoteById(noteId)
                 .subscribeOn(Schedulers.io())
@@ -24,7 +24,7 @@ class UpdatePresenter(private val updateView: UpdateContract.View) : UpdateContr
         compositeDisposable.add(disposable)
     }
 
-    override fun updateNote(repository: NoteRepository, note: Note) {
+    override fun updateNote(note: Note) {
 
         if (note.text.length in 3..26) {
 

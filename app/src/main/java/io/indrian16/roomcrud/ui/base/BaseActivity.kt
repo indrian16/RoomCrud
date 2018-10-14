@@ -10,9 +10,9 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
+import io.indrian16.roomcrud.Injection
 import io.indrian16.roomcrud.ui.newnote.NewActivity
 import io.indrian16.roomcrud.R
-import io.indrian16.roomcrud.data.AppDatabase
 import io.indrian16.roomcrud.data.note.Note
 import io.indrian16.roomcrud.data.note.NoteRepository
 import io.indrian16.roomcrud.ui.updatenote.UpdateActivity
@@ -21,14 +21,14 @@ import kotlinx.android.synthetic.main.activity_base.*
 
 class BaseActivity : BaseContract.View, AppCompatActivity() {
 
-    private val presenter = BasePresenter(this)
+    private lateinit var presenter: BasePresenter
     private var repository: NoteRepository? = null
 
     private var adapter: NoteAdapter? = null
 
     override fun onResume() {
         super.onResume()
-        presenter.loadNote(repository!!)
+        presenter.loadNote()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,9 +37,9 @@ class BaseActivity : BaseContract.View, AppCompatActivity() {
 
         initView()
 
-        // Init DB
-        val db = AppDatabase.getInstance(this)
-        repository = NoteRepository(db.noteDao())
+        // Init DB and Presenter
+        repository = Injection.provideNoteRepository(this)
+        presenter = BasePresenter(this, repository!!)
     }
 
     private fun initView() {
@@ -77,7 +77,7 @@ class BaseActivity : BaseContract.View, AppCompatActivity() {
 
             R.id.delete_all -> {
 
-                presenter.deleteAll(repository!!)
+                presenter.deleteAll()
                 adapter?.deleteAll()
             }
         }

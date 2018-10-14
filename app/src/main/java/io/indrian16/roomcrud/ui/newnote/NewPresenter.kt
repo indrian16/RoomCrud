@@ -7,11 +7,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class NewPresenter(private val newView: NewContract.View) : NewContract.Presenter {
+class NewPresenter(private val newView: NewContract.View, private val repository: NoteRepository) : NewContract.Presenter {
 
     private var disposable: Disposable? = null
 
-    override fun saveText(repository: NoteRepository, note: Note) {
+    override fun saveText(note: Note) {
 
         if (note.text.length in 3..26) {
 

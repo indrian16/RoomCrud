@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import io.indrian16.roomcrud.Injection
 import io.indrian16.roomcrud.R
-import io.indrian16.roomcrud.data.AppDatabase
 import io.indrian16.roomcrud.data.note.Note
 import io.indrian16.roomcrud.data.note.NoteRepository
 import io.indrian16.roomcrud.util.Constant
@@ -17,8 +17,8 @@ import java.util.*
 
 class NewActivity : NewContract.View, AppCompatActivity() {
 
+    private lateinit var presenter: NewPresenter
     private var repository: NoteRepository? = null
-    private val presenter = NewPresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,9 +27,9 @@ class NewActivity : NewContract.View, AppCompatActivity() {
         // ActionBar
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        // Init DB
-        val db = AppDatabase.getInstance(this)
-        repository = NoteRepository(db.noteDao())
+        // Init DB Presenter
+        repository = Injection.provideNoteRepository(this)
+        presenter = NewPresenter(this, repository!!)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -52,7 +52,7 @@ class NewActivity : NewContract.View, AppCompatActivity() {
         val timeNow = formatter.format(date)
         newData.time = timeNow
 
-        presenter.saveText(repository!!, newData)
+        presenter.saveText(newData)
     }
 
     override fun validationSaveText(must: String) {
