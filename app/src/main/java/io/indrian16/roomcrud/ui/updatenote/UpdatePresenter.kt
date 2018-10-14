@@ -26,7 +26,7 @@ class UpdatePresenter(private val updateView: UpdateContract.View) : UpdateContr
 
     override fun updateNote(repository: NoteRepository, note: Note) {
 
-        if (note.text.length in 3..16) {
+        if (note.text.length in 3..26) {
 
             val disposable = Completable.fromAction {
 
