@@ -1,19 +1,19 @@
 package io.indrian16.roomcrud.ui.base
 
-import io.indrian16.roomcrud.data.note.NoteRepository
+import io.indrian16.roomcrud.data.note.NoteRepo
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class BasePresenter(private val baseView: BaseContract.View, private val repository: NoteRepository) :  BaseContract.Presenter {
+class BasePresenter(private val baseView: BaseContract.View, private val repo: NoteRepo) :  BaseContract.Presenter {
 
     private var compositeDisposable = CompositeDisposable()
 
     override fun loadNote() {
 
-        val disposable = repository.getAllNote()
+        val disposable = repo.getAllNote()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -28,7 +28,7 @@ class BasePresenter(private val baseView: BaseContract.View, private val reposit
 
         val disposable = Observable.create(ObservableOnSubscribe<Any> {
 
-            repository.deleteAllNote()
+            repo.deleteAllNote()
             it.onComplete()
         })
                 .subscribeOn(Schedulers.io())

@@ -14,7 +14,7 @@ import io.indrian16.roomcrud.Injection
 import io.indrian16.roomcrud.ui.newnote.NewActivity
 import io.indrian16.roomcrud.R
 import io.indrian16.roomcrud.data.note.Note
-import io.indrian16.roomcrud.data.note.NoteRepository
+import io.indrian16.roomcrud.data.note.NoteRepo
 import io.indrian16.roomcrud.ui.updatenote.UpdateActivity
 import io.indrian16.roomcrud.util.Constant
 import kotlinx.android.synthetic.main.activity_base.*
@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_base.*
 class BaseActivity : BaseContract.View, AppCompatActivity() {
 
     private lateinit var presenter: BasePresenter
-    private var repository: NoteRepository? = null
+    private var repo: NoteRepo? = null
 
     private var adapter: NoteAdapter? = null
 
@@ -38,8 +38,8 @@ class BaseActivity : BaseContract.View, AppCompatActivity() {
         initView()
 
         // Init DB and Presenter
-        repository = Injection.provideNoteRepository(this)
-        presenter = BasePresenter(this, repository!!)
+        repo = Injection.provideNoteRepo(this)
+        presenter = BasePresenter(this, repo!!)
     }
 
     private fun initView() {

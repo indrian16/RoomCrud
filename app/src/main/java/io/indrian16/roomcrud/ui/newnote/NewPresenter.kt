@@ -1,13 +1,13 @@
 package io.indrian16.roomcrud.ui.newnote
 
 import io.indrian16.roomcrud.data.note.Note
-import io.indrian16.roomcrud.data.note.NoteRepository
+import io.indrian16.roomcrud.data.note.NoteRepo
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class NewPresenter(private val newView: NewContract.View, private val repository: NoteRepository) : NewContract.Presenter {
+class NewPresenter(private val newView: NewContract.View, private val repo: NoteRepo) : NewContract.Presenter {
 
     private var disposable: Disposable? = null
 
@@ -17,7 +17,7 @@ class NewPresenter(private val newView: NewContract.View, private val repository
 
             disposable = Completable.fromAction {
 
-                repository.insertNote(note)
+                repo.insertNote(note)
                 newView.onBackToBase()
             }
                     .subscribeOn(Schedulers.io())

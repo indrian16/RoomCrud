@@ -7,13 +7,13 @@ import android.widget.Toast
 import io.indrian16.roomcrud.Injection
 import io.indrian16.roomcrud.R
 import io.indrian16.roomcrud.data.note.Note
-import io.indrian16.roomcrud.data.note.NoteRepository
+import io.indrian16.roomcrud.data.note.NoteRepo
 import kotlinx.android.synthetic.main.activity_update.*
 
 class UpdateActivity : UpdateContract.View, AppCompatActivity() {
 
     lateinit var presenter: UpdatePresenter
-    private var repository: NoteRepository? = null
+    private var repo: NoteRepo? = null
 
     private var updateNote = Note()
 
@@ -24,8 +24,8 @@ class UpdateActivity : UpdateContract.View, AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // Init DB and Presenter
-        repository = Injection.provideNoteRepository(this)
-        presenter = UpdatePresenter(this, repository!!)
+        repo = Injection.provideNoteRepo(this)
+        presenter = UpdatePresenter(this, repo!!)
 
         //Get DB
         val noteId = intent.getLongExtra("noteId", -1)

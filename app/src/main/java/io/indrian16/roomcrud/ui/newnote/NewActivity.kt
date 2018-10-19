@@ -9,7 +9,7 @@ import android.widget.Toast
 import io.indrian16.roomcrud.Injection
 import io.indrian16.roomcrud.R
 import io.indrian16.roomcrud.data.note.Note
-import io.indrian16.roomcrud.data.note.NoteRepository
+import io.indrian16.roomcrud.data.note.NoteRepo
 import io.indrian16.roomcrud.util.Constant
 import kotlinx.android.synthetic.main.activity_new.*
 import java.text.SimpleDateFormat
@@ -18,7 +18,7 @@ import java.util.*
 class NewActivity : NewContract.View, AppCompatActivity() {
 
     private lateinit var presenter: NewPresenter
-    private var repository: NoteRepository? = null
+    private var repo: NoteRepo? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,8 +28,8 @@ class NewActivity : NewContract.View, AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // Init DB Presenter
-        repository = Injection.provideNoteRepository(this)
-        presenter = NewPresenter(this, repository!!)
+        repo = Injection.provideNoteRepo(this)
+        presenter = NewPresenter(this, repo!!)
     }
 
     override fun onSupportNavigateUp(): Boolean {

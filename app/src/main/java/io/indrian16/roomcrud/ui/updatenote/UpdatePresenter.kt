@@ -1,19 +1,19 @@
 package io.indrian16.roomcrud.ui.updatenote
 
 import io.indrian16.roomcrud.data.note.Note
-import io.indrian16.roomcrud.data.note.NoteRepository
+import io.indrian16.roomcrud.data.note.NoteRepo
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class UpdatePresenter(private val updateView: UpdateContract.View, private val repository: NoteRepository) : UpdateContract.Presenter {
+class UpdatePresenter(private val updateView: UpdateContract.View, private val repo: NoteRepo) : UpdateContract.Presenter {
 
     private var compositeDisposable = CompositeDisposable()
 
     override fun getNoteData(noteId: Long) {
 
-        val disposable = repository.getNoteById(noteId)
+        val disposable = repo.getNoteById(noteId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -30,7 +30,7 @@ class UpdatePresenter(private val updateView: UpdateContract.View, private val r
 
             val disposable = Completable.fromAction {
 
-                repository.updateNote(note)
+                repo.updateNote(note)
                 updateView.onBackToBase()
             }
                     .subscribeOn(Schedulers.io())
